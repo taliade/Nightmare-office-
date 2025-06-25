@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nightmare office  | No despiertes. Sobrevive.</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Courier+Prime:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --black: #0a0a0a;
+            --white: #f5f5f5;
+            --yellow: #d4af37;
+            --yellow-dim: #8b7d2b;
+            --gray: #333;
+        }
+        
+        body {
+            font-family: 'Courier Prime', monospace;
+            background: var(--black);
+            color: var(--white);
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23d4af37" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6M1 12h6m6 0h6"/></svg>'), auto;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        .glitch-text {
+            position: relative;
+            animation: glitch 3s infinite;
+        }
+        
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+        
+        .grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.15;
+            z-index: 1;
+            pointer-events: none;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><filter id="noise"><feTurbulence baseFrequency="0.85" numOctaves="3" result="noise"/><feColorMatrix in="noise" type="saturate" values="0"/></filter></defs><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.4"/></svg>');
+            animation: grain 0.2s infinite;
+        }
+        
+        @keyframes grain {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-5%, -5%); }
+            20% { transform: translate(-10%, 5%); }
+            30% { transform: translate(5%, -10%); }
+            40% { transform: translate(-5%, 15%); }
+            50% { transform: translate(-10%, 5%); }
+            60% { transform: translate(15%, 0%); }
+            70% { transform: translate(0%, 15%); }
+            80% { transform: translate(-15%, 0%); }
+            90% { transform: translate(10%, 5%); }
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--yellow-dim);
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        nav a:hover {
+            color: var(--yellow);
+            text-shadow: 0 0 10px var(--yellow);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--yellow);
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--black) 0%, #1a1a1a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, transparent 0%, var(--black) 70%);
+            z-index: 2;
+        }
+        
+        .hero-content {
+            z-index: 3;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-family: 'Creepster', cursive;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 0px var(--yellow-dim);
+            letter-spacing: 3px;
+        }
+        
+        .hero .slogan {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+            font-style: italic;
+        }
+        
+        .cta-button {
+            background: linear-gradient(45deg, var(--yellow-dim), var(--yellow));
+            color: var(--black);
+            padding: 1rem 2rem;
+            border: none;
+            font-family: 'Courier Prime', monospace;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .cta-button:hover {
+            background: linear-gradient(45deg, var(--yellow), var(--yellow-dim));
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .section-title {
+            font-family: 'Creepster', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--yellow);
+            text-shadow: 2px 2px 0px var(--yellow-dim);
+        }
+        
+        .game-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .info-card {
+            background: rgba(51, 51, 51, 0.3);
+            padding: 2rem;
+            border: 1px solid var(--yellow-dim);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .info-card:hover {
+            border-color: var(--yellow);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+        
+        .info-card h3 {
+            color: var(--yellow);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .gameplay-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .control-item {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 1.5rem;
+            border-left: 3px solid var(--yellow);
+            transition: all 0.3s ease;
+        }
+        
+        .control-item:hover {
+            background: rgba(212, 175, 55, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .control-key {
+            color: var(--yellow);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .levels-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .level-card {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(51, 51, 51, 0.4));
+            border: 1px solid var(--yellow-dim);
+            padding: 2rem;
+            text-align: center;
+            min-width: 250px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .level-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .level-card:hover::before {
+            left: 100%;
+        }
+        
+        .level-card:hover {
+            border-color: var(--yellow);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .level-number {
+            font-size: 3rem;
+            color: var(--yellow);
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .trailer-section {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .video-placeholder {
+            width: 100%;
+            max-width: 800px;
+            height: 450px;
+            background: var(--black);
+            border: 2px dashed var(--yellow-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            font-size: 1.5rem;
+            color: var(--yellow-dim);
+        }
+        
+        .game-screenshots {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .screenshot {
+            background: var(--black);
+            border: 1px solid var(--yellow-dim);
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .screenshot:hover {
+            border-color: var(--yellow);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .screenshot-placeholder {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #1a1a1a, var(--black));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--yellow-dim);
+            font-style: italic;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .screenshot-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60"><defs><pattern id="crosshatch" patternUnits="userSpaceOnUse" width="3" height="3"><path stroke="%23333" stroke-width="0.5" d="M0,3 L3,0 M0,0 L3,3"/></pattern></defs><rect width="100%" height="100%" fill="url(%23crosshatch)" opacity="0.3"/></svg>');
+        }
+        
+        .inventory-section {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 3rem 2rem;
+            margin: 3rem 0;
+            border: 1px solid var(--yellow-dim);
+        }
+        
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .inventory-item {
+            background: rgba(51, 51, 51, 0.3);
+            border: 1px solid var(--yellow-dim);
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .inventory-item:hover {
+            border-color: var(--yellow);
+            background: rgba(212, 175, 55, 0.1);
+            transform: translateY(-5px);
+        }
+        
+        .inventory-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--yellow);
+        }
+        
+        .hud-info {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(51, 51, 51, 0.4));
+            padding: 2rem;
+            margin-top: 2rem;
+            border-left: 3px solid var(--yellow);
+        }
+        
+        .battery-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--yellow);
+            font-weight: bold;
+        }
+        
+        .about-zero {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.9), rgba(51, 51, 51, 0.3));
+            border-top: 1px solid var(--yellow-dim);
+            border-bottom: 1px solid var(--yellow-dim);
+        }
+        
+        .about-zero p {
+            font-size: 1.2rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        
+        footer {
+            background: var(--black);
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--yellow-dim);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-links a {
+            color: var(--white);
+            text-decoration: none;
+            padding: 0.5rem;
+            border: 1px solid var(--yellow-dim);
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--yellow);
+            color: var(--black);
+        }
+        
+        .floating-warning {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(212, 175, 55, 0.9);
+            color: var(--black);
+            padding: 1rem;
+            border-radius: 5px;
+            font-weight: bold;
+            z-index: 1000;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .game-info {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .levels-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="grain"></div>
+    
+    <nav>
+        <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#el-juego">El Juego</a></li>
+            <li><a href="#niveles">Niveles</a></li>
+            <li><a href="#trailer">Tráiler</a></li>
+            <li><a href="#equipo">Equipo</a></li>
+        </ul>
+    </nav>
+    
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1 class="glitch-text">ESCAPE DEL SUEÑO</h1>
+            <p class="slogan">"No despiertes. Sobrevive."</p>
+            <a href="#trailer" class="cta-button">Ver tráiler</a>
+        </div>
+    </section>
+    
+    <section id="el-juego" class="fade-in">
+        <h2 class="section-title">El Juego</h2>
+        <div class="game-info">
+            <div class="info-card">
+                <h3>Horror Psicológico</h3>
+                <p>Un videojuego de horror psicológico lento, tipo <em>Pathless Puzzle</em>, desarrollado para computadoras y dispositivos móviles con GDevelop.</p>
+                <p>Toma el rol de un hombre agotado por el estrés laboral, atrapado en una pesadilla sin fin dentro de su oficina.</p>
+                <p style="margin-top: 1rem; font-style: italic; color: var(--yellow-dim);">
+                    "El juego se desarrolla enteramente en el sueño del personaje. Si despierta, todo termina."
+                </p>
+            </div>
+            <div class="info-card">
+                <h3>Objetivo</h3>
+                <p><strong>Sobrevivir, escapar y no despertar.</strong></p>
+                <p>Tercera persona en 2D - solo puedes caminar, usar tu linterna y resolver cómo sobrevivir en esta pesadilla infinita.</p>
+                <p style="margin-top: 1rem; color: var(--yellow);">
+                    <strong>Final:</strong> Si sobrevives lo suficiente, llegas a casa y el sueño termina.
+                </p>
+            </div>
+        </div>
+        
+        <div class="info-card">
+            <h3>Jugabilidad</h3>
+            <div class="gameplay-grid">
+                <div class="control-item">
+                    <span class="control-key">A / D</span> - Movimiento izquierda/derecha
+                </div>
+                <div class="control-item">
+                    <span class="control-key">E</span> - Interacción con objetos
+                </div>
+                <div class="control-item">
+                    <span class="control-key">TAB</span> - Abrir inventario
+                </div>
+                <div class="control-item">
+                    <span class="control-key">MOUSE</span> - Apuntar linterna
+                </div>
+            </div>
+            
+            <div class="hud-info">
+                <h4 style="color: var(--yellow); margin-bottom: 1rem;">HUD & Inventario</h4>
+                <p>Interfaz minimalista con indicador de <span class="battery-indicator">🔋 batería</span> para la linterna</p>
+            </div>
+            
+            <div class="inventory-section">
+                <h4 style="color: var(--yellow); text-align: center; margin-bottom: 2rem;">Inventario del Jugador</h4>
+                <div class="inventory-grid">
+                    <div class="inventory-item">
+                        <div class="inventory-icon">🔐</div>
+                        <h5>Candado Numérico</h5>
+                        <p>Código: 3434</p>
+                    </div>
+                    <div class="inventory-item">
+                        <div class="inventory-icon">🔧</div>
+                        <h5>Palanca Metálica</h5>
+                        <p>Herramienta esencial</p>
+                    </div>
+                    <div class="inventory-item">
+                        <div class="inventory-icon">🔦</div>
+                        <h5>Linterna</h5>
+                        <p>Tu única luz</p>
+                    </div>
+                    <div class="inventory-item">
+                        <div class="inventory-icon">🔋</div>
+                        <h5>Batería</h5>
+                        <p>Energía limitada</p>
+                    </div>
+                </div>
+            </div>
+            
+            <p style="margin-top: 2rem; text-align: center; font-style: italic;">
+                Sin puntos • Sin autoguardado • Solo supervivencia
+            </p>
+        </div>
+    </section>
+    
+    <section id="niveles" class="fade-in">
+        <h2 class="section-title">Niveles</h2>
+        <div class="levels-container">
+            <div class="level-card">
+                <div class="level-number">?</div>
+                <h3>Tutorial</h3>
+                <p>Aprende a sobrevivir</p>
+            </div>
+            <div class="level-card">
+                <div class="level-number">1</div>
+                <h3>El Pasillo Eterno</h3>
+                <p>Sin salida aparente</p>
+            </div>
+            <div class="level-card">
+                <div class="level-number">2</div>
+                <h3>Archivos sin Salida</h3>
+                <p>Documentos infinitos</p>
+            </div>
+            <div class="level-card">
+                <div class="level-number">3</div>
+                <h3>Sala del Descanso Final</h3>
+                <p>¿El final del sueño?</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="trailer" class="trailer-section fade-in">
+        <h2 class="section-title">Tráiler & Capturas</h2>
+        <div class="video-placeholder">
+            <video src="./video/juego.mp4" controls height="450px" width="600px"></video>
+
+            <br>
+            <small>Terror lento • Sustos inesperados • Tensión constante</small></p>
+        </div>
+        
+        <div class="game-screenshots">
+            <div class="screenshot">
+                <div class="screenshot-placeholder">
+                    <div style="position: relative; z-index: 2;">
+                        <p>🏢 OFICINA INFINITA</p>
+                        <small>Pasillos sin salida aparente</small>
+                    </div>
+                </div>
+                <p>El entorno opresivo donde todo comienza</p>
+            </div>
+            <div class="screenshot">
+                <div class="screenshot-placeholder">
+                    <div style="position: relative; z-index: 2;">
+                        <p>🚶‍♂️ PERSONAJE CON LINTERNA</p>
+                        <small>Tercera persona • Vista 2D</small>
+                    </div>
+                </div>
+                <p>La linterna es tu única guía en la oscuridad</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="equipo" class="about-zero fade-in">
+        <h2 class="section-title">Zero Gamers</h2>
+        <p>
+            Somos un equipo de desarrolladores independientes especializados en crear experiencias inmersivas de horror lento. 
+            En Zero Gamers, creemos que el verdadero terror surge de la tensión psicológica y la atmosfera, no de los sustos baratos. 
+            <em>Escape del Sueño</em> representa nuestra visión de un horror que se queda contigo mucho después de dejar de jugar.
+        </p>
+    </section>
+    
+    <footer>
+        <div class="footer-content">
+            <div>
+                <p>&copy; 2025 Zero Gamers. Licencia 100% original.</p>
+                <p><small>Categoría: Never Clearing Nightmares</small></p>
+            </div>
+            <div class="social-links">
+                <a href="#">Twitter</a>
+                <a href="#">Discord</a>
+                <a href="#">Steam</a>
+                <a href="#">Contacto</a>
+            </div>
+        </div>
+    </footer>
+    
+    <div class="floating-warning">
+        +16 años • Horror psicológico
+    </div>
+    
+    <script>
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Random glitch effect
+        setInterval(() => {
+            const glitchElements = document.querySelectorAll('.glitch-text');
+            glitchElements.forEach(el => {
+                if (Math.random() < 0.1) {
+                    el.style.animation = 'none';
+                    setTimeout(() => {
+                        el.style.animation = 'glitch 3s infinite';
+                    }, 100);
+                }
+            });
+        }, 5000);
+        
+        // Cursor flashlight effect
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.createElement('div');
+            cursor.style.position = 'fixed';
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.width = '100px';
+            cursor.style.height = '100px';
+            cursor.style.background = 'radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%)';
+            cursor.style.borderRadius = '50%';
+            cursor.style.pointerEvents = 'none';
+            cursor.style.zIndex = '999';
+            cursor.style.transform = 'translate(-50%, -50%)';
+            document.body.appendChild(cursor);
+            
+            setTimeout(() => {
+                cursor.remove();
+            }, 200);
+        });
+    </script>
+</body>
+</html>
